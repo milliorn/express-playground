@@ -27,3 +27,7 @@ Repo for me to learn about ExpressJs
 ## Routing
 
 <https://expressjs.com/en/guide/routing.html>
+
+## Serving static files in Express
+
+<https://expressjs.com/en/starter/static-files.html>
