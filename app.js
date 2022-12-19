@@ -98,6 +98,19 @@ app.get(
   }
 );
 
+// You can create chainable route handlers for a route path by using app.route(). Because the path is specified at a single location, creating modular routes is helpful, as is reducing redundancy and typos.
+app
+  .route("/book")
+  .get((req, res) => {
+    res.send("Get a random book");
+  })
+  .post((req, res) => {
+    res.send("Add a book");
+  })
+  .put((req, res) => {
+    res.send("Update the book");
+  });
+
 // Respond to POST request on the root route (/), the application’s home page:
 app.post("/", (req, res) => {
   res.send("Received POST request");
