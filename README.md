@@ -8,4 +8,12 @@ Repo for me to learn about ExpressJs
 
 ## Install
 
-$ npm install express --save
+`npm install express --save`
+
+## Hello world example
+
+<https://expressjs.com/en/starter/hello-world.html>
+
+## Basic routing
+
+<https://expressjs.com/en/starter/basic-routing.html>
