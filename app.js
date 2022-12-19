@@ -46,6 +46,12 @@ app.get(/z/, (req, res) => {
 app.get(/.*fly$/, (req, res) => {
   res.send("./*fly$/");
 });
+
+// To define routes with route parameters, simply specify the route parameters in the path of the route as shown below.
+app.get("/user/:userId/books/:bookId", (req, res) => {
+  req.params;
+});
+
 // Respond to POST request on the root route (/), the application’s home page:
 app.post("/", (req, res) => {
   res.send("Received POST request");
