@@ -17,3 +17,7 @@ Repo for me to learn about ExpressJs
 ## Basic routing
 
 <https://expressjs.com/en/starter/basic-routing.html>
+
+## Routing
+
+<https://expressjs.com/en/guide/routing.html>

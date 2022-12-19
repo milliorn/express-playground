@@ -22,6 +22,12 @@ app.delete("/user", (req, res) => {
   res.send("Received a DELETE request at /user");
 });
 
+// There is a special routing method, app.all(), used to load middleware functions at a path for all HTTP request methods. For example, the following handler is executed for requests to the route “/secret” whether using GET, POST, PUT, DELETE, or any other HTTP request method supported in the http module.
+app.all("/secret", (req, res) => {
+  console.log(`Accessing secret endpoint`);
+  next(); // pass control to the next handler
+});
+
 app.listen(port, () => {
   console.log(`Listening at http://localhost:${port}`);
 });
