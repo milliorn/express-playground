@@ -2,6 +2,12 @@
 
 Repo for me to learn about ExpressJs
 
+## nodemon
+
+<https://www.npmjs.com/package/nodemon>
+
+`npm install --save-dev nodemon # or using yarn: yarn add nodemon -D`
+
 ## Express
 
 <https://expressjs.com/>
