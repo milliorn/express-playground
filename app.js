@@ -1,3 +1,5 @@
+const birds = require("./routes/birds");
+
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -110,6 +112,10 @@ app
   .put((req, res) => {
     res.send("Update the book");
   });
+
+// Create a router file named birds.js in the app directory
+// Then, load the router module in the app:
+app.use("/birds", birds);
 
 // Respond to POST request on the root route (/), the application’s home page:
 app.post("/", (req, res) => {
