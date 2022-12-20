@@ -1,5 +1,8 @@
 const birds = require("./routes/birds");
 
+const cookieParser = require("cookie-parser");
+const cookieValidator = require("./cookieValidator");
+
 const express = require("express");
 const app = express();
 const port = 3000;
@@ -115,6 +118,32 @@ app
   .put((req, res) => {
     res.send("Update the book");
   });
+
+// Middleware function requestTime
+const requestTime = (req, res, next) => {
+  req.requestTime = Date.now();
+  next();
+};
+
+app.use(requestTime);
+
+app.get("/time", (req, res) => {
+  let responseText = `Hello World!<br>`;
+  responseText += `<small>Requested at: ${req.requestTime}</small>`;
+  res.send(responseText);
+});
+
+// Here we use the cookie-parser middleware to parse incoming cookies off the req object and pass them to our cookieValidator function. The validateCookies middleware returns a Promise that upon rejection will automatically trigger our error handler.
+async function validateCookies(req, res, next) {
+  await cookieValidator(req.cookies);
+  next();
+}
+
+app.use(cookieParser());
+app.use(validateCookies);
+app.use((err, req, res, next) => {
+  res.status(400).send(err.message);
+});
 
 // Create a router file named birds.js in the app directory
 // Then, load the router module in the app:

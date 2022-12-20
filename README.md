@@ -31,3 +31,9 @@ Repo for me to learn about ExpressJs
 ## Serving static files in Express
 
 <https://expressjs.com/en/starter/static-files.html>
+
+## cookie-parser
+
+`npm i cookie-parser`
+
+<https://www.npmjs.com/package/cookie-a>
