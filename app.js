@@ -4,6 +4,9 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+// If you run the express app from another directory, it’s safer to use the absolute path of the directory that you want to serve:
+const path = require("path");
+
 // Respond with Hello World! on the homepage:
 app.get("/", (req, res) => {
   res.send("Hello World!");
@@ -116,6 +119,11 @@ app
 // Create a router file named birds.js in the app directory
 // Then, load the router module in the app:
 app.use("/birds", birds);
+
+// Use the following code to serve images, CSS files, and JavaScript files in a directory named public
+
+// http://localhost:3000/static/hello.html
+app.use("/static", express.static(path.join(__dirname, "public")));
 
 // Respond to POST request on the root route (/), the application’s home page:
 app.post("/", (req, res) => {
