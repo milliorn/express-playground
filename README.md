@@ -37,3 +37,7 @@ Repo for me to learn about ExpressJs
 `npm i cookie-parser`
 
 <https://www.npmjs.com/package/cookie-a>
+
+## Using middleware
+
+<https://expressjs.com/en/guide/using-middleware.html>

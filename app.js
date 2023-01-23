@@ -1,9 +1,9 @@
 const birds = require("./routes/birds");
 
+const express = require("express");
 const cookieParser = require("cookie-parser");
 const cookieValidator = require("./cookieValidator");
 
-const express = require("express");
 const app = express();
 const port = 3000;
 
@@ -13,6 +13,43 @@ const path = require("path");
 // Respond with Hello World! on the homepage:
 app.get("/", (req, res) => {
   res.send("Hello World!");
+});
+
+// Respond with request header with for host to be view/use in postman, etc.
+app.get("/header", (req, res) => {
+  res.send(req.header("host"));
+});
+
+// Same as above for header but for user-agent
+app.get("/useragent", (req, res) => {
+  res.send(req.header("user-agent"));
+});
+
+// Same as above but instead get the raw headers
+app.get("/rawheaders", (req, res) => {
+  res.send(req.rawHeaders);
+});
+
+// send data to the server in a request body
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.post("/sendrequest", (req, res) => {
+  res.send(req.body);
+});
+
+// send data to the server about content type
+app.post("/contenttype", (req, res) => {
+  res.send(req.header("Content-Type"));
+});
+
+app.post("/login", (req, res) => {
+  if (!req.header("x-auth-token")) {
+    return res.status(400).send("No token");
+  } else if (req.header("x-auth-token") !== "123456") {
+    return res.status(401).send("Not authorized");
+  } else {
+    res.send("Logged in");
+  }
 });
 
 // This route path will match requests to /about.
@@ -135,12 +172,13 @@ app.get("/time", (req, res) => {
 
 // Here we use the cookie-parser middleware to parse incoming cookies off the req object and pass them to our cookieValidator function. The validateCookies middleware returns a Promise that upon rejection will automatically trigger our error handler.
 async function validateCookies(req, res, next) {
-  await cookieValidator(req.cookies);
-  next();
+  // you must make the function cookieValidator for this to work.
+  // await cookieValidator(req.cookies);
 }
 
 app.use(cookieParser());
 app.use(validateCookies);
+
 app.use((err, req, res, next) => {
   res.status(400).send(err.message);
 });
@@ -148,6 +186,17 @@ app.use((err, req, res, next) => {
 // Create a router file named birds.js in the app directory
 // Then, load the router module in the app:
 app.use("/birds", birds);
+
+// This shows a middleware function mounted on the /user/:id path. The function is executed for any type of HTTP request on the /user/:id path.
+app.use("/user/:id", (req, res, next) => {
+  console.log("Request type: ", req.method);
+  next();
+});
+
+// This shows a route and its handler function (middleware system). The function handles GET requests to the /user/:id path.
+app.get("/user/:id", (req, res, next) => {
+  res.send("USER");
+});
 
 // Use the following code to serve images, CSS files, and JavaScript files in a directory named public
 
@@ -164,12 +213,13 @@ app.put("/", (req, res) => {
   res.send("Received a PUT at /user");
 });
 
+
 // Respond to a DELETE request to the /user route:
 app.delete("/user", (req, res) => {
   res.send("Received a DELETE request at /user");
 });
 
-// There is a special routing method, app.all(), used to load middleware functions at a path for all HTTP request methods. For example, the following handler is executed for requests to the route “/secret” whether using GET, POST, PUT, DELETE, or any other HTTP request method supported in the http module.
+// There is a special routing method, app.all(), used to load middleware functions at a path for all HTTP request methods. The following handler is executed for requests to the route “/secret” whether using GET, POST, PUT, DELETE, or any other HTTP request method supported in the http module.
 app.all("/secret", (req, res) => {
   console.log(`Accessing secret endpoint`);
 });
