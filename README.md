@@ -41,3 +41,19 @@ Repo for me to learn about ExpressJs
 ## Using middleware
 
 <https://expressjs.com/en/guide/using-middleware.html>
+
+## node-cache
+
+`npm install node-cache --save`
+
+<https://www.npmjs.com/package/node-cache>
+
+<https://github.com/node-cache/node-cache>
+
+## isomorphic-fetch
+
+`npm install --save isomorphic-fetch`
+
+<https://www.npmjs.com/package/isomorphic-fetch>
+
+<https://github.com/matthew-andrews/isomorphic-fetch>

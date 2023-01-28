@@ -7,6 +7,43 @@ const cookieValidator = require("./cookieValidator");
 const app = express();
 const port = 3000;
 
+// Pre-caching
+// https://www.freecodecamp.org/news/a-detailed-guide-to-pre-caching/
+const nodecache = require("node-cache");
+require("isomorphic-fetch");
+
+//Creating the node-cache instance
+const cache = new nodecache({ stdTTL: 10 });
+
+//We are using the fake API available at <https://jsonplaceholder.typicode.com/>
+const baseURL = "https://jsonplaceholder.typicode.com/posts/";
+
+//Pre-caching Popular Posts
+[1, 2, 3].map(async (id) => {
+  const fakeAPIURL = baseURL + id;
+  const data = await fetch(fakeAPIURL).then((response) => response.json());
+  cache.set(id, data);
+  console.log(`Post Id ${id} cached`);
+});
+
+//API Endpoint to demonstrate caching
+app.get("/posts/:id", async (req, res) => {
+  const id = req.params.id;
+  if (cache.has(id)) {
+    console.log("Fetching data from the Node Cache");
+    res.send(cache.get(id));
+  } else {
+    const fakeAPIURL = baseURL + id;
+    const data = await fetch(fakeAPIURL).then((response) => response.json());
+
+    cache.set(req.params.id, data);
+    console.log("Fetching Data from the API");
+    res.send(data);
+  }
+});
+
+//  End Pre-caching
+
 // If you run the express app from another directory, it’s safer to use the absolute path of the directory that you want to serve:
 const path = require("path");
 
@@ -212,7 +249,6 @@ app.post("/", (req, res) => {
 app.put("/", (req, res) => {
   res.send("Received a PUT at /user");
 });
-
 
 // Respond to a DELETE request to the /user route:
 app.delete("/user", (req, res) => {
