@@ -41,7 +41,6 @@ app.get("/posts/:id", async (req, res) => {
     res.send(data);
   }
 });
-
 //  End Pre-caching
 
 // If you run the express app from another directory, it’s safer to use the absolute path of the directory that you want to serve:

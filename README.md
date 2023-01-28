@@ -57,3 +57,7 @@ Repo for me to learn about ExpressJs
 <https://www.npmjs.com/package/isomorphic-fetch>
 
 <https://github.com/matthew-andrews/isomorphic-fetch>
+
+## What is Pre-Caching? How to Increase Website Speed and Performance
+
+<https://www.freecodecamp.org/news/a-detailed-guide-to-pre-caching/>
