@@ -13,29 +13,32 @@ const port = process.env.PORT || 5000;
 
 // mock user
 const user = {
-  id : 1,
-  username : "Scott",
-  email : "scott@gmail.com",
+  id: 1,
+  username: "Scott",
+  email: "scott@gmail.com",
 };
 
-app.get("/api", (req, res) => { res.json({message : "Welcome to API"}); });
+app.get("/api", (req, res) => {
+  res.json({ message: "Welcome to API" });
+});
 
 app.post("/api/posts", verifyToken, (req, res) => {
   jwt.verify(req.token, "secretkey", (err, authData) => {
     if (err) {
       res.sendStatus(403);
     } else {
-      res.json({message : "Post created...", authData});
+      res.json({ message: "Post created...", authData });
     }
   });
 
-  res.json({message : `Post created at ${new Date().toLocaleTimeString()}`});
+  res.json({ message: `Post created at ${new Date().toLocaleTimeString()}` });
 });
 
 // implement json web token with a route
 app.post("/api/login", (req, res) => {
-  jwt.sign({user : user}, "secretkey", {expiresIn : "60s"},
-           (err, token) => { res.json({token : token}); });
+  jwt.sign({ user: user }, "secretkey", { expiresIn: "60s" }, (err, token) => {
+    res.json({ token: token });
+  });
 });
 
 // Token format
@@ -74,7 +77,7 @@ const nodecache = require("node-cache");
 require("isomorphic-fetch");
 
 // Creating the node-cache instance
-const cache = new nodecache({stdTTL : 10});
+const cache = new nodecache({ stdTTL: 10 });
 
 // We are using the fake API available at
 // <https://jsonplaceholder.typicode.com/>
@@ -110,25 +113,36 @@ app.get("/posts/:id", async (req, res) => {
 const path = require("path");
 
 // Respond with Hello World! on the homepage:
-app.get("/", (req, res) => { res.send("Hello World!"); });
+app.get("/", (req, res) => {
+  res.send("Hello World!");
+});
 
 // Respond with request header with for host to be view/use in postman, etc.
-app.get("/header", (req, res) => { res.send(req.header("host")); });
+app.get("/header", (req, res) => {
+  res.send(req.header("host"));
+});
 
 // Same as above for header but for user-agent
-app.get("/useragent", (req, res) => { res.send(req.header("user-agent")); });
+app.get("/useragent", (req, res) => {
+  res.send(req.header("user-agent"));
+});
 
 // Same as above but instead get the raw headers
-app.get("/rawheaders", (req, res) => { res.send(req.rawHeaders); });
+app.get("/rawheaders", (req, res) => {
+  res.send(req.rawHeaders);
+});
 
 // send data to the server in a request body
 app.use(express.json());
-app.use(express.urlencoded({extended : false}));
-app.post("/sendrequest", (req, res) => { res.send(req.body); });
+app.use(express.urlencoded({ extended: false }));
+app.post("/sendrequest", (req, res) => {
+  res.send(req.body);
+});
 
 // send data to the server about content type
-app.post("/contenttype",
-         (req, res) => { res.send(req.header("Content-Type")); });
+app.post("/contenttype", (req, res) => {
+  res.send(req.header("Content-Type"));
+});
 
 app.post("/login", (req, res) => {
   if (!req.header("x-auth-token")) {
@@ -141,45 +155,69 @@ app.post("/login", (req, res) => {
 });
 
 // This route path will match requests to /about.
-app.get("/about", (req, res) => { res.send("about"); });
+app.get("/about", (req, res) => {
+  res.send("about");
+});
 
 // This route path will match requests to /random.text.
-app.get("/random.text", (req, res) => { res.send("random.text"); });
+app.get("/random.text", (req, res) => {
+  res.send("random.text");
+});
 
 // This route path will match acd and abcd.
-app.get("/ab?cd", (req, res) => { res.send("ab?cd"); });
+app.get("/ab?cd", (req, res) => {
+  res.send("ab?cd");
+});
 
 // This route path will match abcd, abbcd, abbbcd, and so on.
-app.get("/ab+cd", (req, res) => { res.send("ab+cd"); });
+app.get("/ab+cd", (req, res) => {
+  res.send("ab+cd");
+});
 
 // This route path will match abcd, abxcd, abRANDOMcd, ab123cd, and so on.
-app.get("/ab*cd", (req, res) => { res.send("ab*cd"); });
+app.get("/ab*cd", (req, res) => {
+  res.send("ab*cd");
+});
 
 // This route path will match /abe and /abcde.
-app.get("/ab(cd)?e", (req, res) => { res.send("ab(cd)?e"); });
+app.get("/ab(cd)?e", (req, res) => {
+  res.send("ab(cd)?e");
+});
 
 // This route path will match anything with an "z" in it.
-app.get(/z/, (req, res) => { res.send("/z/"); });
+app.get(/z/, (req, res) => {
+  res.send("/z/");
+});
 
 // This route path will match butterfly and dragonfly, but not butterflyman,
 // dragonflyman, and so on.
-app.get(/.*fly$/, (req, res) => { res.send("./*fly$/"); });
+app.get(/.*fly$/, (req, res) => {
+  res.send("./*fly$/");
+});
 
 // To define routes with route parameters, simply specify the route parameters
 // in the path of the route as shown below.
-app.get("/user/:userId/books/:bookId", (req, res) => { res.send(req.params); });
+app.get("/user/:userId/books/:bookId", (req, res) => {
+  res.send(req.params);
+});
 
 // A single callback function can handle a route.
-app.get("/example/a", (req, res) => { res.send("Hello A!"); });
+app.get("/example/a", (req, res) => {
+  res.send("Hello A!");
+});
 
 // More than one callback function can handle a route (make sure you specify the
 // next object).
-app.get("/example/b",
-        (req, res, next) => {
-          console.log("Response will be sent by next()");
-          next();
-        },
-        (req, res) => { res.send("Hello from B!"); });
+app.get(
+  "/example/b",
+  (req, res, next) => {
+    console.log("Response will be sent by next()");
+    next();
+  },
+  (req, res) => {
+    res.send("Hello from B!");
+  }
+);
 
 // An array of callback functions can handle a route.
 const callbackFirst = (req, res, next) => {
@@ -199,20 +237,32 @@ const callbackThird = (req, res, next) => {
 
 // A combination of independent functions and arrays of functions can handle a
 // route.
-app.get("/example/callback", [ callbackFirst, callbackSecond, callbackThird ],
-        (req, res, next) => {
-          console.log("response sent by next function");
-          next();
-        },
-        (req, res) => { res.send("Hello callbacks!"); });
+app.get(
+  "/example/callback",
+  [callbackFirst, callbackSecond, callbackThird],
+  (req, res, next) => {
+    console.log("response sent by next function");
+    next();
+  },
+  (req, res) => {
+    res.send("Hello callbacks!");
+  }
+);
 
 // You can create chainable route handlers for a route path by using
 // app.route(). Because the path is specified at a single location, creating
 // modular routes is helpful, as is reducing redundancy and typos.
-app.route("/book")
-    .get((req, res) => { res.send("Get a random book"); })
-    .post((req, res) => { res.send("Add a book"); })
-    .put((req, res) => { res.send("Update the book"); });
+app
+  .route("/book")
+  .get((req, res) => {
+    res.send("Get a random book");
+  })
+  .post((req, res) => {
+    res.send("Add a book");
+  })
+  .put((req, res) => {
+    res.send("Update the book");
+  });
 
 // Middleware function requestTime
 const requestTime = (req, res, next) => {
@@ -240,7 +290,9 @@ async function validateCookies(req, res, next) {
 app.use(cookieParser());
 app.use(validateCookies);
 
-app.use((err, req, res, next) => { res.status(400).send(err.message); });
+app.use((err, req, res, next) => {
+  res.status(400).send(err.message);
+});
 
 // Create a router file named birds.js in the app directory
 // Then, load the router module in the app:
@@ -255,7 +307,9 @@ app.use("/user/:id", (req, res, next) => {
 
 // This shows a route and its handler function (middleware system). The function
 // handles GET requests to the /user/:id path.
-app.get("/user/:id", (req, res, next) => { res.send("USER"); });
+app.get("/user/:id", (req, res, next) => {
+  res.send("USER");
+});
 
 // Use the following code to serve images, CSS files, and JavaScript files in a
 // directory named public
@@ -264,20 +318,28 @@ app.get("/user/:id", (req, res, next) => { res.send("USER"); });
 app.use("/static", express.static(path.join(__dirname, "public")));
 
 // Respond to POST request on the root route (/), the application’s home page:
-app.post("/", (req, res) => { res.send("Received POST request"); });
+app.post("/", (req, res) => {
+  res.send("Received POST request");
+});
 
 // Respond to a PUT request to the /user route:
-app.put("/", (req, res) => { res.send("Received a PUT at /user"); });
+app.put("/", (req, res) => {
+  res.send("Received a PUT at /user");
+});
 
 // Respond to a DELETE request to the /user route:
-app.delete("/user",
-           (req, res) => { res.send("Received a DELETE request at /user"); });
+app.delete("/user", (req, res) => {
+  res.send("Received a DELETE request at /user");
+});
 
 // There is a special routing method, app.all(), used to load middleware
 // functions at a path for all HTTP request methods. The following handler is
 // executed for requests to the route “/secret” whether using GET, POST, PUT,
 // DELETE, or any other HTTP request method supported in the http module.
-app.all("/secret", (req, res) => { console.log(`Accessing secret endpoint`); });
+app.all("/secret", (req, res) => {
+  console.log(`Accessing secret endpoint`);
+});
 
-app.listen(port,
-           () => { console.log(`Listening at http://localhost:${port}`); });
+app.listen(port, () => {
+  console.log(`Listening at http://localhost:${port}`);
+});
